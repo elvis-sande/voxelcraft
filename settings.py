@@ -5,3 +5,6 @@ import math
 
 # resolution
 WIN_RES = glm.vec2(1320, 720)
+
+# temp colors to flip
+BG_COLOR = glm.vec3(0.1, 0.16, 0.25)

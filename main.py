@@ -18,17 +18,33 @@ class VoxelEngine:
         self.ctx.enable(flags = mgl.DEPTH_TEST | mgl.CULL_FACE | mgl.BLEND)    # activate fragment depth testing, culling of invisible faces & color blending
         self.ctx.gc_mode = 'auto'    # mgl auto garbage collect unused opengl objects to avoid manual deletion
 
+        self.clock = pg.time.Clock()    # keep track of time
+        self.delta_time = 0
+        self.time = 0
+
+        self.is_running = True    # flag to check if app is running
+
     def update(self):      # method to update state of objects
-        pass
+        self.delta_time = self.clock.tick()    # update deltatime
+        self.time = pg.time.get_ticks() * 0.001    # update time
+        pg.display.set_caption(f'{self.clock.get_fps() :.0f}')    # show fps in title bar
 
     def render(self):      # render objects
-        pass
+        self.ctx.clear(color=BG_COLOR)    # clear frame and depth buffers
+        pg.display.flip()    # display new frame
 
     def handle_events(self):
-        pass
+        for event in pg.event.get():
+            if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+                self.is_running = False
 
     def run(self):
-        pass
+        while self.is_running:  # check if is_running = True
+            self.handle_events()
+            self.update()
+            self.render()
+        pg.quit()
+        sys.exit()
 
 if __name__ == "__main__":
     app = VoxelEngine()
